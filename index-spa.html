@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Viajando Leve - SPA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+:root {
+  --bg: #012E40;
+  --card: rgba(15,23,42,.9);
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --primary: #22d3ee;
+  --accent: #012E40;
+  --border: #1f2a44;
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --maxw: 1100px;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; border-radius: var(--radius-sm); }
+
+.container { width: min(100%, var(--maxw)); margin: 0 auto; padding: 0 20px; }
+
+header {
+  position: sticky; top: 0;
+  background: rgba(15,23,42,.9);
+  border-bottom: 1px solid var(--border);
+}
+.nav { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; }
+.logo { background: linear-gradient(135deg,var(--primary),var(--accent)); border-radius: 10px; padding: 10px; font-weight: bold; }
+.menu { display: flex; gap: 16px; }
+.menu a { color: var(--muted); }
+.menu a:hover { color: var(--text); }
+.cta { border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px; }
+
+.hero { padding: 50px 0; }
+.block { background: var(--card); padding: 20px; border-radius: var(--radius); }
+.eyebrow { color: var(--primary); font-size: 12px; text-transform: uppercase; }
+.title { font-size: 32px; margin: 8px 0; }
+.subtitle { color: var(--muted); }
+
+.search { margin-top: 12px; display: flex; gap: 10px; }
+.search input { flex: 1; padding: 8px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); }
+.search button { padding: 8px 12px; border-radius: 8px; cursor: pointer; }
+
+.tags { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; }
+.tag { padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
+
+.grid { display: grid; gap: 20px; padding: 20px 0; }
+@media(min-width: 720px){ .grid{grid-template-columns: repeat(2,1fr);} }
+@media(min-width: 1024px){ .grid{grid-template-columns: repeat(3,1fr);} }
+
+.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.card-body { padding: 14px; }
+.badge { background: rgba(34,211,238,.15); color: var(--primary); padding: 2px 8px; border-radius: 6px; font-size: 11px; text-transform: uppercase; }
+.meta { color: var(--muted); font-size: 12px; margin-bottom: 6px; }
+.readmore { color: var(--primary); font-weight: bold; }
+
+.featured { display: grid; gap: 20px; margin: 20px 0; }
+.feature-card { position: relative; border-radius: var(--radius); overflow: hidden; }
+.feature-body { position: absolute; bottom: 0; padding: 12px; background: linear-gradient(180deg,transparent,rgba(0,0,0,.8)); color: white; }
+
+.pagination { display: flex; justify-content: center; gap: 8px; padding: 20px 0; }
+.page { padding: 6px 10px; border: 1px solid var(--border); border-radius: 6px; }
+.page.active { background: var(--primary); color: black; }
+
+footer { border-top: 1px solid var(--border); padding: 20px 0; color: var(--muted); font-size: 14px; }
+
+
+.menu button {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.menu button:hover,
+.menu button.active {
+  color: var(--text);
+  background: rgba(255,255,255,0.1);
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0;
+}
+.link-btn:hover {
+  text-decoration: underline;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">🌍 Viajando Leve</div>
+      </div>
+      <nav class="menu">
+        <button id="btn-index" onclick="carregarIndex()">Início</button>
+        <button id="btn-italia" onclick="carregarItalia()">Itália</button>
+        <button id="btn-china" onclick="carregarChina()">China</button>
+        <button id="btn-chile" onclick="carregarChile()">Chile</button>
+        <button id="btn-egito" onclick="carregarEgito()">Egito</button>
+        <button id="btn-nz" onclick="carregarNovaZelandia()">Nova Zelândia</button>
+        <button id="btn-uruguai" onclick="carregarUruguai()">Uruguai</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- conteúdo carregado dinamicamente -->
+  </main>
+
+  <footer id="sobre">
+    <div class="container foot">
+      <p><strong>Viajando Leve</strong> — relatos autênticos e roteiros testados na vida real.</p>
+      <p>Feito por Rhayane Ribeiro e Sabryna Andrade.</p>
+    </div>
+  </footer>
+
+  <script>
+function carregarIndex() {
+  document.getElementById('conteudo').innerHTML = `<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Viajando Leve — Blog de Viagens</title>
+    <meta name="description" content="Um blog de viagens com relatos, dicas e roteiros pelo mundo." />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    
+
+    <main id="inicio" class="container">
+
+        <section class="hero" aria-labelledby="hero-title">
+            <div class="block">
+                <div class="eyebrow">Blog de Viagens</div>
+                <h1 id="hero-title" class="title">Descubra o mundo com leveza</h1>
+                <p class="subtitle">Roteiros detalhados, dicas sinceras e relatos que cabem no seu bolso.</p>
+            </div>
+        </section>
+
+        <section id="destinos" class="grid" aria-label="Lista de posts">
+            <article class="card">
+                <div class="card-media">
+                    <img src="https://blog.theifriend.com/wp-content/uploads/2023/10/guia-brasileiro-na-italia.jpg" alt="Veneza, Itália, com gondolas e canais" />
+                </div>
+                <div class="card-body">
+                    <div class="meta"><span class="badge">Europa</span><span>Itália</span><span>•</span><time datetime="2025-08-01">01 ago 2025</time></div>
+                    <h3>Itália: O guia completo para a sua viagem</h3>
+                    <p class="excerpt">Um roteiro compacto para quem quer sentir a cidade sem correrias.</p>
+                    <button class="link-btn" onclick="carregarItalia()">Ler mais →</button>
+                </div>
+            </article>
+            <article class="card">
+                <div class="card-media">
+                    <img src="https://viajarverde.com.br/wp-content/uploads/2015/12/Milford-Sound-mstecker.com_1-810x480.jpg" alt="Montanha no Parque Nacional Fiordland, Nova Zelândia" />
+                </div>
+                <div class="card-body">
+                    <div class="meta"><span class="badge">Natureza</span><span>Nova Zelândia</span><span>•</span><time datetime="2025-07-28">28 jul 2025</time></div>
+                    <h3>Nova Zelândia: Aventuras na Ilha Sul e sua beleza natural</h3>
+                    <p class="excerpt">Trilhas, mirantes e como organizar a logística entre as paisagens do país.</p>
+                    <button class="link-btn" onclick="carregarNovaZelandia()">Ler mais →</button>
+                </div>
+            </article>
+            <article class="card">
+                <div class="card-media">
+                    <img src="https://www.civitatis.com/f/china/pekin/excursion-gran-muralla-china-589x392.jpg" alt="Muralha da China e montanhas" />
+                </div>
+                <div class="card-body">
+                    <div class="meta"><span class="badge">Cultura</span><span>China</span><span>•</span><time datetime="2025-07-20">20 jul 2025</time></div>
+                    <h3>China: Pequim e a Grande Muralha, explorando história e cultura</h3>
+                    <p class="excerpt">Descubra a riqueza cultural de Pequim e os segredos da Grande Muralha.</p>
+                    <button class="link-btn" onclick="carregarChina()">Ler mais →</button>
+                </div>
+            </article>
+        </section>
+            <section id="destinos2" class="grid" aria-label="Lista de posts">
+            <article class="card">
+                <div class="card-media">
+                    <img src="https://blog.123milhas.com/wp-content/uploads/2022/04/BANNER-TEM-IR-SANTIAGO-123MILHAS.jpg" alt="7 dias no Chile." />
+                </div>
+                <div class="card-body">
+                    <div class="meta"><span class="badge">América do Sul</span><span>Chile</span><span>•</span><time datetime="2025-08-01">01 jul 2025</time></div>
+                    <h3>O que fazer no Chile em 7 dias: Roteiro e dicas para sua viagem</h3>
+                    <p class="excerpt">Você sabe o que fazer no Chile em 7 dias? O Chile é um destino surpreendente, 
+                    repleto de paisagens incríveis, vinícolas renomadas e uma rica cultura.</p>
+                    <button class="link-btn" onclick="carregarChile()">Ler mais →</button>
+                </div>
+            </article>
+            <article class="card">
+                <div class="card-media">
+                    <img src="https://elaboraviagens.com.br/wp-content/uploads/2025/02/Cairo_1736516813062.jpg" alt="Egito" />
+                </div>
+                <div class="card-body">
+                    <div class="meta"><span class="badge">África</span><span>Egito</span><span>•</span><time datetime="2025-08-01">28 jun 2025</time></div>
+                    <h3>5 coisas que você precisa saber para planejar sua viagem para o Egito</h3>
+                    <p class="excerpt">Uma viagem ao Egito é uma experiência inigualável: trata-se de um país com uma história fascinante que permeia nosso imaginário de forma única.</p>
+                    <button class="link-btn" onclick="carregarEgito()">Ler mais →</button>
+                </div>
+            </article>
+                        <article class="card">
+                <div class="card-media">
+                    <img src="https://dicasdouruguai.com.br/wp-content/uploads/sites/12/2019/11/praia-de-punta-del-este.jpg" alt="Uruguai" />
+                </div>
+                <div class="card-body">
+                    <div class="meta"><span class="badge">América do Sul</span><span>Uruguai</span><span>•</span><time datetime="2025-08-01">20 jun 2025</time></div>
+                    <h3>O que fazer no Uruguai em 5 dias?</h3>
+                    <p class="excerpt">O Uruguai é um destino que vem ganhando cada vez mais destaque, principalmente, 
+                        no radar dos brasileiros.Mas como organizar e montar um roteiro Uruguai que seja funcional para 
+                        conhecer o melhor da região? </p>
+                    <button class="link-btn" onclick="carregarUruguai()">Ler mais →</button>
+                </div>
+            </article>
+        </section>
+
+    <section id="index" class="post-section">
+      <p class="back">↑ Voltar ao topo</p>
+    </section>
+
+    
+</body>
+</html>
+`;
+  setActive('carregarIndex');
+}
+
+function carregarItalia() {
+  document.getElementById('conteudo').innerHTML = `<article class="post-content">
+                <h1>Itália: O guia completo para a sua viagem</h1>
+                <p>Descubra um roteiro perfeito pela Itália, para você conhecer as principais cidades e aproveitar muito a 
+                sua viagem por esse país encantador. Nós daremos dicas de cidades, pontos turísticos, 
+                trajetos e muito mais!</p>
+                 <img src="https://blog.theifriend.com/wp-content/uploads/2023/10/guia-brasileiro-na-italia.jpg" width="300" height="200"/>
+
+                <h2><p>Dias 1 a 5: Roma</h2>
+                Inicie seu roteiro por Roma, onde é o aeroporto que normalmente os viajantes desembarcam. 
+                É uma cidade histórica e cultural, repleta de atrações, entre monumentos e ruínas de imponentes edifícios.
+                Não deixe de conhecer seus principais pontos turísticos, como o Coliseu de Roma, Fórum Romano, 
+                Monte Palatino, Panteão de Roma, Piazza Navona e muitos outros.
+                Saboreie autênticos pratos italianos em trattorias locais e jante à luz de velas em um dos encantadores 
+                restaurantes à beira do Rio Tibre.</p>
+                <img src="https://res.cloudinary.com/hello-tickets/image/upload/c_limit,f_auto,q_auto,w_1300/v1640835927/o3pfl41q7m5bj8jardk0.jpg" width="300" height="200"/>
+                <h2><p>Dias 6 e 7: Região da Toscana</h2>
+                No sexto dia de sua viagem, suba para a famosa região da Toscana. Comece por Siena, uma cidade bonita e bem tranquila. 
+                É ótima para descansar durante o trajeto, principalmente se você for de carro. 
+                O trajeto de trem de Roma a Siena dá cerca de 4 horas, enquanto de carro dá aproximadamente 2h45 entre uma cidade e outra.
+                Passeie bastante por Siena, visitando seus museus, basílicas e jardins. 
+                A cidade é pequena e em um dia, você conseguirá ver seus principais pontos turísticos. 
+                Aproveite o restante do tempo para visitar Montepulciano e Montalcino, duas cidades bem parecidas e 
+                charmosas, que dá para visitar em apenas uma tarde.</p>
+                <img src="https://www.barraqueirotour.com/wp-content/uploads/2018/10/montepulcian-italia.jpg" width="300" height="200"/>
+                <h2><p>Dias 8 a 10: Florença</h2>
+                No dia seguinte, vá até Florença, uma cidade linda e com uma atmosfera totalmente romântica. 
+                Ela está situada no coração da Toscana, então a partir dela, você consegue se locomover para outros lugares importantes. 
+                De Siena até Florença, dá em torno de 1h30 de trem e 1h de carro. 
+                Separe dois dias inteiros para conhecer os principais pontos turísticos de Florença.
+                Dentre as principais coisas que você pode fazer em Florença, estão apreciar os belíssimos afrescos 
+                e obras de arte da Catedral di Santa Maria del Fiore, curtir as coleções e instrumentos do cientista 
+                Galileo Galilei no Museo Galileo, fazer umas comprinhas no Mercato di San Lorenzo ou até curtir uma 
+                caminhada atravessando a Ponte Vecchio.</p>
+                <img src="https://res.cloudinary.com/hello-tickets/image/upload/c_limit,f_auto,q_auto,w_1300/v1649653444/gfpirrvdfkujjmqjbtxh.jpg" width="300" height="200"/>
+                <h2><p>Dias 11 e 12: Veneza</h2>
+                No dia seguinte, dirija-se até Veneza. Você levará aproximadamente 2h15 de trem e 2h30 de carro. 
+                Toda cercada por rios, é a cidade mais diferente de todas. Tem as calçadas onde os pedestres passam, 
+                mas é incomum passarem carros nas ruas. Por isso, caso esteja com carro alugado, vale a pena deixá-lo no hotel 
+                e fazer os passeios a pé ou de Vaporetto, o transporte mais utilizado por lá.
+                Veneza é uma cidade com ruelas simples, mas cheia de charme. É bastante romântica e oferece pontos 
+                turísticos inesquecíveis. Faça um passeio de gôndola pelos canais tranquilos e perca-se nas charmosas 
+                vielas venezianas. Visite a Praça de São Marcos, a Torre Veneziana que fica nessa praça, o 
+                Palácio Ducal, a Ponte dos Suspiros e até a Praia Lido, caso esteja calor.</p>
+                <img src="https://img.freepik.com/fotos-premium/basilica-na-praca-de-san-marco-em-veneza-com-reflexo-na-noite-de-mare-alta_87646-2020.jpg?w=360" width="300" height="200"/>
+                <h2><p>Dias 13 a 15: Milão</h2>
+                Encerre seu roteiro perfeito pela Itália em Milão. O trajeto até lá, partindo de Veneza, 
+                dá em torno de 2h40 de trem ou de carro. Considerada a capital da moda, Milão é o melhor lugar para 
+                fazer compras de toda a Itália, pois oferece mais lojas e shoppings. Além dos centros de compras, 
+                a parada obrigatória por lá é a Piazza Duomo, onde está a majestosa Catedral de Milão.
+                Uma dica é subir ao terraço da Catedral de Milão para ter uma vista panorâmica da cidade. 
+                Também vale a pena explorar a Galeria Vittorio Emanuele II, uma galeria esplêndida que abriga várias 
+                lojas e restaurantes. Já os amantes de arte e cultura não podem deixar de passar no inesquecível 
+                Teatro Alla Scala, um dos teatros de ópera mais importantes do mundo.</p>
+                <img src="https://res.cloudinary.com/hello-tickets/image/upload/c_limit,f_auto,q_auto,w_768/v1658315582/post_images/milan-135/night/44602863405_e7b044e0c0_o_Cropped.jpg" width="300" height="200"/>
+            </article>`;
+  setActive('carregarItalia');
+}
+
+function carregarChina() {
+  document.getElementById('conteudo').innerHTML = `<article class="post-content">
+                <h1>China: Pequim e a Grande Muralha, explorando história e cultura</h1>
+                <p>Viajar para a China é uma experiência única e fascinante, que oferece aos visitantes uma mistura de tradição e modernidade, 
+                    história milenar e paisagens deslumbrantes. Com uma vasta extensão territorial e uma cultura rica e diversificada, 
+                    a China é um destino que promete encantar e surpreender.<br>Preparamos um guia com os principais destinos, pontos turísticos 
+                    imperdíveis, dicas úteis e tudo o que você precisa saber para planejar uma viagem à Terra do Dragão.</p>
+                    <img src="https://www.civitatis.com/f/china/pekin/excursion-gran-muralla-china-589x392.jpg" width="300" height="200"/>
+                    <h2><p>Pequim: descobrindo a capital imperial</h2>
+                    Pequim, a capital da China, é uma cidade que pulsa com história e cultura. Seu principal cartão-postal é a imponente Cidade 
+                    Proibida, um complexo palaciano que serviu como residência dos imperadores chineses durante séculos. Ao caminhar por seus 
+                    pátios e salões, os visitantes têm a oportunidade de mergulhar na grandiosidade e no esplendor da antiga corte imperial.
+                    <br>Além da Cidade Proibida, Pequim abriga uma série de outros tesouros históricos, como o Templo do Céu, onde os 
+                    imperadores realizavam cerimônias religiosas para garantir boas colheitas, e a Praça Tiananmen, um marco simbólico da 
+                    história moderna da China.</p>
+                    <img src="https://lh6.googleusercontent.com/proxy/pcFJ94VCROC0lklHTR7u05lvgLns-Y-xnbi31o1sFkHixGtXOqzSSqoPXDrMCZ-iz8sQZ8riom2Sk9cqLHW74Tpqe6wfKyo9zAayOhRDFjmob8mq1kVU1NOK7rPicj1fZyrFb07iDtslfgqKS1WUl5rGbWYnsdl2oa5hiZIbaEI" width="300" height="200"/>
+                    <h2><p>A Grande Muralha: uma jornada épica pela história e natureza</h2>
+                    Uma das maravilhas arquitetônicas mais impressionantes do mundo e uma visita obrigatória para qualquer viajante que deseje 
+                    explorar as riquezas culturais e naturais do país. 
+                    <br>Construída ao longo de séculos para proteger o Império Chinês de invasões estrangeiras, a muralha se estende por milhares 
+                    de quilômetros, serpenteando através de montanhas e paisagens deslumbrantes. 
+                    <br>Embora existam várias seções da Grande Muralha abertas aos visitantes, como Badaling e Mutianyu, também há opções para os 
+                    mais aventureiros, que podem optar por explorar trechos menos turísticos e mais selvagens da estrutura.</p>
+                    <img src="https://static.nationalgeographicbrasil.com/files/styles/image_3200/public/nationalgeographic2710344.jpg?w=1900&h=1272" width="300" height="200"/>
+                    <h2><p>Xangai: o epicentro da modernidade chinesa</h2>
+                    Uma metrópole vibrante que combina perfeitamente o antigo e o novo, o tradicional e o contemporâneo. Com seus arranha-céus, 
+                    modernos centros comerciais e uma cena gastronômica de classe mundial, a cidade é um verdadeiro paraíso para quem aprecia a 
+                    combinação entre a urbanidade e sofisticação. 
+                    <br>Xangai também oferece uma dose generosa de história e cultura, refletida em seus bairros históricos, como o Bund e a Cidade 
+                    Antiga, onde os visitantes podem se perder nas ruas estreitas e becos pitorescos, descobrindo templos antigos, jardins 
+                    serenos e mercados tradicionais.</p>
+                    <img src="https://f.i.uol.com.br/fotografia/2019/06/13/15604470785d028866dc1f1_1560447078_3x2_md.jpg" width="300" height="200"/>
+                    <h2><p>Explorando a riqueza cultural e natural da China</h2>
+                    Além dos destinos mais conhecidos, a China também oferece uma infinidade de outras atrações e experiências para os viajantes 
+                    explorarem. Por exemplo, a cidade de Xi'an é famosa por abrigar o impressionante Exército de Terracota, uma coleção de 
+                    estátuas de guerreiros e cavalos de tamanho real que foram enterradas com o primeiro imperador da China para protegê-lo na 
+                    vida após a morte. 
+                    <br>Já Guilin, localizada na região sul da China, é conhecida por sua paisagem de tirar o fôlego, com picos de calcário 
+                    pontiagudos emergindo das águas verde-esmeralda do Rio Li. E para os amantes da natureza, a província de Yunnan oferece uma 
+                    variedade de paisagens deslumbrantes, que vão desde montanhas cobertas de neve até florestas tropicais exuberantes.</p>
+                    <h2><p>Dicas essenciais para sua viagem à China</h2>
+                    Documentação: Certifique-se de ter seu passaporte válido e de obter o visto chinês com antecedência, se necessário.<br><br>
+                    Clima e bagagem: O clima na China varia de acordo com a região e a estação do ano, por isso é importante verificar 
+                    as condições climáticas antes de viajar e se preparar adequadamente.<br><br>
+                    Culinária: Não deixe de experimentar a deliciosa e diversificada culinária chinesa, que varia de região 
+                    para região. Esteja aberto a novos sabores e pratos exóticos e não hesite em explorar pequenos restaurantes locais e barracas 
+                    de rua.<br><br>
+                    Transporte: Utilize o eficiente sistema de transporte público das principais cidades chinesas, como metrôs e ônibus, para 
+                    se locomover de forma rápida e econômica. Considere também a possibilidade de alugar bicicletas ou contratar serviços de 
+                    táxi ou aplicativos de transporte.</p>
+
+            </article>`;
+  setActive('carregarChina');
+}
+
+function carregarChile() {
+  document.getElementById('conteudo').innerHTML = `<article class="post-content">
+                <h1>O que fazer no Chile em 7 dias: Roteiro e dicas para sua viagem</h1>
+                <p>Em 7 dias no Chile, pode explorar Santiago e os seus arredores, combinando 
+                    a capital com visitas a vinícolas (como a Concha y Toro), o centro histórico, o teleférico no Cerro 
+                    San Cristóbal e os passeios à cordilheira com as estações de esqui em Valle Nevado e Farellones 
+                    (no inverno) ou caminhadas (no verão). </p>
+                 <img src="https://blog.123milhas.com/wp-content/uploads/2022/04/BANNER-TEM-IR-SANTIAGO-123MILHAS.jpg" width="300" height="200"/>
+
+                <h2><p>Dia 1: Santiago - Chegada e Centro Histórico </h2>
+                <p><span>•</span>Comece explorando o Centro Histórico de Santiago. </p>
+                <p><span>•</span>Visite o Palácio La Moneda, a Plaza de Armas e a Catedral Metropolitana. </p>
+                <p><span>•</span>Explore o Centro Cultural La Moneda e a Feira de Artesanato.</p> </p>
+                <img src="https://images.myguide-cdn.com/md/common/large/5de3b87e37009-637280.jpg" width="300" height="200"/>
+                <h2><p>Dia 2: Vinícolas</h2>
+                <span>•</span>Faça um tour e degustação em uma vinícola famosa como a Concha y Toro ou explore as vinícolas do 
+                Vale de Casablanca. </p>
+                <img src="https://dicaschile.com.br/wp-content/uploads/sites/13/2022/05/vinamar-vinicola-chile.jpg" width="300" height="200"/>
+                <h2><p>Dia 3: Santiago e Cerro San Cristóbal </h2>
+                <p><span>•</span>Suba o Cerro San Cristóbal usando o teleférico ou o funicular para uma 
+                vista panorâmica de Santiago. </p>
+                <p><span>•</span>Visite o Bairro Bellavista, casa do Museu La Chascona (Casa de Pablo Neruda). </p>
+                </p>
+                <img src="https://nortesulchile.com.br/wp-content/uploads/2024/09/bairro-providencia-1024x572.png" width="300" height="200"/>
+                <h2><p>Dia 4: Cajón del Maipo</h2>
+                <p><span>•</span>Desfrute das belezas naturais do Cajón del Maipo, uma região montanhosa. </p>
+                <p><span>•</span>Pode visitar as Termas Colina, um complexo de fontes termais.</p>
+                </p>
+                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/24/10/a6/c2/caption.jpg?w=1200&h=1200&s=1" width="300" height="200"/>
+                <h2><p>Dia 5: Viña del Mar e Valparaíso </h2>
+                <p><span>•</span>Faça uma viagem de um dia para a costa.</p>
+                <p><span>•</span>Explore Viña del Mar, com suas praias e jardins, e a cidade portuária de 
+                    Valparaíso, conhecida pela sua arquitetura. </p>
+                </p>
+                <img src="https://dynamic-media.tacdn.com/media/photo-o/2f/ab/43/0f/caption.jpg?w=700&h=500&s=1" width="300" height="200"/>
+                <h2><p>Dia 6: Montanha (Inverno/Verão)</h2>
+                <p><span>•</span>Inverno: Vá para a estação de esqui em Valle Nevado ou as atrações do 
+                    Parque Farellones. </p>
+                <p><span>•</span>Verão: Faça uma trilha, cavalgada ou aproveite o cenário montanhoso no 
+                    Valle Nevado. </p>
+                </p>
+                <img src="https://www.vallenevado.com/wp-content/uploads/2025/04/dji_fly_20230624_174250_136_1687643666353_photo-resized.jpg" width="300" height="200"/>
+                <h2><p>Dia 7: Lazer em Santiago</h2>
+                <p><span>•</span>Visite um dos shoppings da cidade, como o Parque Arauco, que também tem 
+                    um parque agradável. </p>
+                <p><span>•</span>Faça compras de última hora ou relaxe no Bairro Lastarria. </p>
+                </p>
+                <img src="https://revistashoppingcenters.com.br/wp-content/uploads/2025/03/Parque-Arauco-Kennedy-edicao-258-revista-shopping-centers-abrasce-4.jpg" width="300" height="200"/>
+                <h2><p>Dicas Adicionais</h2>
+                <h3><p><span>•</span>Transporte:</h3>
+                <p>Para passeios às montanhas ou a Cajón del Maipo, considere usar uma agência de turismo para
+                ter mais segurança e conforto, especialmente em rotas com neve. </p> </p>
+                <h3><p><span>•</span>Flexibilidade:</h3> 
+                <p>7 dias é um bom tempo para conhecer bem Santiago e fazer os passeios principais para os arredores 
+                    sem pressa, com flexibilidade para ajustar o roteiro. </p>
+                </p>
+            </article>`;
+  setActive('carregarChile');
+}
+
+function carregarEgito() {
+  document.getElementById('conteudo').innerHTML = `<article class="post-content">
+                <h1>5 coisas que você precisa saber para planejar sua viagem para o Egito</h1>
+                <p>Para planear uma viagem ao Egito, o ideal é ficar entre 10 e 20 dias, focando nos locais históricos do Cairo,  
+                    Luxor e Aswan, além de um cruzeiro pelo rio Nilo e praia no Mar Vermelho, como em Hurghada. A melhor época é entre 
+                    outubro e abril para evitar o calor intenso, com visitas aos templos antigos, o Grande Museu Egípcio e 
+                    o mercado Khan el-Khalili no Cairo. Os custos variam, mas podem ser entre R$ 8 mil e R$ 15 mil por 
+                    pessoa para 7 a 10 dias, dependendo do estilo de viagem.  </p>
+                 <img src="https://elaboraviagens.com.br/wp-content/uploads/2025/02/Cairo_1736516813062.jpg" width="300" height="200"/>
+
+                <h2><p>O que incluir no roteiro</h2>
+                <h3>Cairo:</h3>
+                <p>Visite as Pirâmides de Gizé, a Esfinge, o Grande Museu Egípcio e o movimentado mercado Khan el-Khalili. </p>
+                <h3>Cruzeiro no Nilo:</h3>
+                Um cruzeiro de Aswan a Luxor é uma excelente forma de conhecer os templos de Philae, Hórus e 
+                    Karnak. 
+                <h3>Luxor:</h3>
+                Explore os templos de Luxor e Karnak, além do Vale dos Reis. 
+                <h3>Mar Vermelho:</h3>
+                <p>Se tiver tempo, visite locais de praia como Hurghada, que oferecem relaxamento e 
+                    mergulho. </p>
+                <img src="https://www.grupodicas.com/wp-content/uploads/2023/09/templo-luxor-egito-1.png" width="300" height="200"/>
+                <h2><p>Melhor época para viajar </h2>
+                <h3>Outubro a Abril:</h3>
+                Este é o período ideal, pois as temperaturas são mais amenas, tornando os passeios ao 
+                ar livre muito mais agradáveis.
+                <h3>Evitar:</h3>
+                <p>Os meses de verão (junho a agosto) devem ser evitados por causa do calor extremo, 
+                    especialmente se não for tolerante a altas temperaturas.</p>
+                <h2><p>Duração ideal da viagem </h2>
+                <p><span>•</span>10 a 20 dias: Este período permite uma experiência mais completa, 
+                    explorando os principais pontos turísticos sem pressa. </p>
+                <h3>Custos estimados </h3>
+                <p><span>•</span>Uma viagem de 7 a 10 dias pode custar entre R$ 8 mil e R$ 15 mil 
+                    por pessoa, incluindo passagens, hotel, alimentação e passeios.</p>
+                </p>
+                <h2><p>Dica extra </h2>
+                <p><span>•</span>A organização de um roteiro pode ser facilitada com o apoio de agências 
+                    de turismo, que podem oferecer pacotes completos. </p>
+            </article>`;
+  setActive('carregarEgito');
+}
+
+function carregarNovaZelandia() {
+  document.getElementById('conteudo').innerHTML = `<article class="post-content">
+                <h1>Nova Zelândia: Aventuras na Ilha Sul e sua beleza natural</h1>
+                <p>A viagem pela Ilha Sul (South Island) na Nova Zelândia é um deleite para quem gosta de belas paisagens. 
+                    Se seu sonho é conhecer cenários incríveis nessa viagem, South Island é o seu destino no país. 
+                    E com tantos lugares incríveis para visitar, o tempo de viagem pela Ilha Sul pode render bem mais que o programado. 
+                    É impossível não parar a cada mirante para uma foto. Aliás, esse é o melhor ponto da Ilha Sul, por isso, 
+                    aproveite cada paradinha. </p>
+                    <img src="https://viajarverde.com.br/wp-content/uploads/2015/12/Milford-Sound-mstecker.com_1-810x480.jpg" width="300" height="200"/>
+                    <h2><p>Dia 01 - Partida de Christchurch e chegada em Greymouth - 333 km de trajeto</h2>
+                    Se você chegou de viagem da Ilha Norte em Christchuch muito tarde, passe a noite na cidade e saia no dia seguinte pela manhã bem cedo. 
+                    Apesar do trajeto curto, a estrada é movimentada e você levará mais tempo que o esperado para cumprir todo o percurso. 
+                    Saia de Christchurch e siga até Castle Hill. No local, visite lindas formações rochosas que lembram castelos e foram cenário 
+                    do filme As Crônicas de Nárnia.
+                    <br>Se tiver saído bem cedo, você terá tempo de ir até Punakaiki, onde as rochas à beira-mar têm formato de panquecas que dão 
+                    show de splash quando as ondas batem forte nos buracos encravados nelas. No caminho de Castle Hill até Punakaiki, 
+                    na West Coast, passe por dentro do Arthur's Pass National Park e aproveite a paisagem. Ao chegar em Punakaiki, visite as 
+                    rochas à beira-mar e, se o tempo permitir, faça uma das trilhas do Paparoa National Park. Se não tiver mais tempo de viagem 
+                    ou sair tarde de Christchurch, deixe o passeio por Punakaiki para o dia seguinte. À noite, escolha um dos campings ou hotéis 
+                    próximos a Greymouth.
+                    <br>Todos os passeios desse dia têm acesso gratuito.</p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604548/paparoa-national-park-e-as-rochas-de-punakaiki.jpg" width="300" height="200"/>
+                    <h2><p>Dia 02 - Partida de Greymouth e chegada no Glacial Fox - 244 km de trajeto</h2>
+                    Saia de Greymouth bem cedo e siga a Highway State 06 rumo ao Glacial Franz Josef. Na estrada, você encontrará opções de 
+                    sobrevoo de helicóptero pelos glaciais. Caso esteja interessado, pare antes de chegar ao glacial para fazer o passeio. 
+                    Acredite! A experiência é maravilhosa e o passeio vale cada dólar neozelandês. Você terminará o sobrevoo por volta de 11h 
+                    ou meio-dia. Siga então para fazer a trilha do Glacial Franz Josef. O tempo médio do percurso é entre 1h30 e 2h, 
+                    com total de 5,4 km (somando ida e volta).
+                    <br><br>Depois de terminar a trilha, siga de carro até a entrada do Glacial Fox. Você terá o final da tarde 
+                    para fazer a trilha. Não perca tempo! A trilha do Glacial Fox demora, em média, uma hora para ser percorrida. 
+                    Ao todo, serão 2,6 km de trajeto, ida e volta. Você fará a trilha de volta ao pôr do sol, com lindo visual! 
+                    Quem quiser conhecer mais de perto os glaciais poderá investir em passeios que fazem caminhadas e escaladas no 
+                    gelo. O custo é alto, mas a sensação é incrível! À noite, escolha um dos campings ou hotéis próximos ao Glacial Fox. 
+                    <br>As trilhas para os glaciais têm acesso gratuito, mas os passeios de helicóptero e caminhadas sobre o gelo são pagos. </p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604572/glaciar-franz-josef.jpg" width="300" height="200"/>
+                    <h2><p>Dia 03 - Partida do Glacial Fox e chegada a Wanaka - 262 km de trajeto </h2>
+                    Saia do Glacial Fox rumo a Wanaka, passando dor dentro do Mount Aspiring National Park. No percurso do parque, há várias 
+                    trilhas e visitas a cachoeiras. Uma boa parada, sem trilha, é o local para ver Thunder Creek Falls. Pare para fotos, siga 
+                    até as Blue Pools e passe um bom tempo observando o incrível azul da água que desce da corredeira e forma belas piscinas 
+                    azuis. O tempo para aproveitar será por sua conta, já que a trilha é bem pequena e facinha. 
+                    Caso queira aproveitar outras trilhas, faça um passeio mais rápido.
+                    <br><br>Siga viagem rumo a Wanaka. No caminho, faça uma parada para apreciar o Lago Hawea. Ao chegar em Wanaka, 
+                    aproveite o final da tarde para fotografar a famosa árvore da cidade, que fica dentro do Lago Wanaka. 
+                    A árvore é conhecida como “That Wanaka Tree” e realmente proporciona belos clicks! Aproveite o final do dia 
+                    em um dos restaurantes locais e veja o pôr do sol de frente para o maravilhoso lago. À noite, escolha um dos 
+                    campings ou hotéis próximos ao Lago Wanaka.<br>Todos os passeios desse dia têm acesso gratuito.</p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604578/mount-aspiring-national-park-e-as-blue-pools.jpg" width="300" height="200"/>
+                    <h2><p>Dia 04 - Partida de Wanaka rumo a Queenstown - 67 km de trajeto</h2>
+                    Aproveite a manhã para passear por Wanaka. A cidade tem um lindo lago, parques e vários deliciosos restaurantes 
+                    à beira da orla. Você poderá escolher entre almoçar em Wanaka ou na cidade de Arrowtown, um antigo povoado remanescente do 
+                    período da febre do ouro na Nova Zelândia. É um lugar bastante peculiar e delicioso para passar a tarde, especialmente 
+                    durante o outono.
+                    <br>Depois de aproveitar a tarde em Arrowtown, siga rumo a Queenstown. Se chegar antes do pôr do sol, desça 
+                    até o lago para apreciar o entardecer. Outra opção desse dia é seguir até o Mount Aspiring National Park 
+                    (agora do outro lado) para fazer a trilha que leva ao Glacial Rob Roy. Serão 4h de caminhada em um trajeto 
+                    de 10 km (ida e volta). A trilha começa no Raspberry Creek Car Park, a 54 km de Wanaka. Se quiser fazer os 
+                    dois trajetos, inclua um dia a mais no roteiro. À noite, escolha um dos campings ou hotéis de Queenstown. 
+                    Vale também passar a noite em Wanaka. 
+                    <br>Todos os passeios desse dia têm acesso gratuito</p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604587/wanaka-com-lake-hawea-e-lake-wanaka.jpg" width="300" height="200"/>
+                    <h2><p>Dia 05 - Queenstown - sem deslocamento para outras cidades</h2>
+                    Este dia é inteiramente dedicado a Queenstown, cidade conhecida pela grande oferta de esportes de aventura. 
+                    Não faltarão opções de passeios para quem deseja experimentar alguns bungee jumps, saltos de paraquedas, voos de 
+                    parapente, passeios em lanchas rápidas, rafting em corredeiras e trilhas de mountain bike. Os esportes de aventura 
+                    costumam tomar muito tempo, por isso será difícil praticar mais de dois deles em um mesmo dia. Caso deseje investir 
+                    em várias atividades, fique mais dias em Queenstown. 
+                    <br>Se um esporte apenas for suficiente, aproveite o tempo também para subir a Skyline Gondola, fazer um passeio à beira do Lago 
+                    Wakatipu, passear pelo Jardim Botânico de Queenstown ou simplesmente bater perna pela cidade, que é linda! Durante o pôr do 
+                    sol, aproveite os restaurantes com vista para o lago e já emende uma degustação de vinhos ou cervejas artesanais 
+                    neozelandesas. Passe a noite em Queenstown, onde não faltam opções de bons hotéis.
+                    <br>Os esportes de aventura e a subida da Skyline Gondola são passeios pagos, mas caminhar à beira do lago e no Jardim Botânico é de graça.  </p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604598/queenstown.jpg" width="300" height="200"/>
+                    <h2><p>Dia 06 - Queenstown e Glenorchy - 46 km de trajeto entre as duas cidades</h2>
+                    Apenas um dia para conhecer Queenstown é pouco. Vale investir em mais uma estada na cidade dos esportes de aventura.
+                    Faça nesse dia o que não deu tempo de fazer no dia anterior. A Skyline Gondola, por exemplo, merece meio dia de passeio, 
+                    com direito a algumas corridas no Luge, uma espécie de carrinho de rolimã que desce ladeira abaixo e arranca muitas risadas. 
+                    Aproveite também para fazer algumas das trilhas no topo da gôndola ou a Queenstown Hill Time Walk, com três horas de duração 
+                    e uma subida que leva ao cume do Monte Te Tapu Nui, de onde se tem linda vista panorâmica para a cidade.
+                    <br>Caso não queria passar mais um dia em Queenstown, faça um passeio até Glenorchy. A cidade, localizada à beira do Mount 
+                    Aspiring National Park, tem visual incrível para os Alpes do Sul e é ponto de partida para uma das trilhas mais populares 
+                    da Nova Zelândia: a Routeburn Track. Será inviável percorrer os 32 km da trilha (só ida) em um só dia, mas é possível fazer 
+                    o trecho inicial e curtir um bocado da paisagem. Caso deseje fazer a trilha completa, adicione de dois a quartro dias ao 
+                    roteiro. A noite de hospedagem nesse dia pode ser em Glenorchy ou Queenstown. Caso esteja com tempo livre, vale seguir para 
+                    Te Anau e encurtar o percurso até Milford Sound no dia seguinte.
+                    <br>Os passeios de Queenstown nesse dia são pagos, mas a Queenstown Hill Track é gratuita, assim como a 
+                    visita a Glenorchy e a trilha Routeburn.</p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604601/queenstown.jpg" width="300" height="200"/>
+                    <h2><p>Dia 07 - Partida de Queenstown ou Te Anau para Milford Sound - 287 km de trajeto a partir de Queenstown e 118 km a 
+                    partir de Te Anau</h2>
+                    Este é o dia de seguir rumo ao Fiordland National Park. Para quem dormiu em Queenstown, o ideal é acordar bem cedo e 
+                    botar o pé na estrada direto para o fiorde Milford Sound. A estrada está entre as mais difíceis e demoradas da Ilha Sul. 
+                    Saia com calma para ter tempo de fazer paradas no caminho até o fiorde Milford Sound, com destaque para a floresta de faia,
+                     os Mirror Lakes (lagos que espelham a paisagem) e, se o tempo permitir, a Lake Gunn Nature Walk, uma bela trilha com apenas 
+                     45 minutos de duração. Quanto mais tempo tiver no Fiordland National Park, mais paradas você poderá fazer para aproveitar a 
+                     paisagem.
+                    <br>O Milford Sound, com cerca de 16 km de extensão, é o único fiorde acessível de carro. Ao chegar, procure um passeio de 
+                    cruzeiro para conhecer mais de perto a beleza do lugar. O ingresso poderá também ser comprado com antecedência. Caso faça a 
+                    compra anteriormente, calcule bem o horário para não perder o passeio. O ideal é pegar os cruzeiros que acontecem depois de 
+                    meio-dia. Apesar de o cruzeiro mais comum ter apenas 1h30 de duração, o deslocamento de ida e volta tomará todo o dia da viagem.
+                    <br>Nesse dia, as trilhas são todas gratuitas.</p>
+                    <img src="https://imgmd.net/images/c_limit%2Cw_1200/v1/guia/1604604/fiordland-com-milford-sound-e-doubtful-sound.jpg" width="300" height="200"/>
+            </article>`;
+  setActive('carregarNovaZelandia');
+}
+
+function carregarUruguai() {
+  document.getElementById('conteudo').innerHTML = `<article class="post-content">
+                <h1>O que fazer no Uruguai em 5 dias?</h1>
+                <p>Em 5 dias no Uruguai, você pode criar um roteiro dinâmico, combinando a capital, Montevidéu, com a 
+                    charmosa Colônia do Sacramento e o badalado balneário de Punta del Este, além de incluir passeios pelas
+                     vinícolas e pela costa. Uma sugestão é dedicar os dois primeiros dias a Montevidéu, visitando a Ciudad 
+                    Vieja, o Mercado del Puerto e a Rambla; o terceiro dia para um bate e volta a Colônia do Sacramento, 
+                    explorando seu centro histórico; o quarto dia para as vinícolas e, no quinto, aproveitar as praias de 
+                    Punta del Este ou retornar para um último passeio em Montevidéu. </p>
+                 <img src="https://dicasdouruguai.com.br/wp-content/uploads/sites/12/2019/11/praia-de-punta-del-este.jpg" width="300" height="200"/>
+
+                <h2><p>Dia 1: Montevidéu - Cultura e História</h2>
+                <p><span>•</span>Ciudad Vieja: Explore o coração histórico de Montevidéu, com a Praça da 
+                    Independência, o Teatro Solís e o Mercado del Puerto. </p>
+                <p><span>•</span>Gastronomia: Almoce em um dos restaurantes do Mercado del Puerto e 
+                    experimente o tradicional chivito. </p>
+                <p><span>•</span>Rambla: Termine o dia com um passeio pela Rambla, a famosa orla da 
+                    cidade, para apreciar o pôr do sol. </p> 
+                <img src="https://viajantesemfim.com.br/wp-content/uploads/2019/08/69416589_693347004410219_1012101926541590528_n.jpg" width="300" height="200"/>
+                <h2><p>Dia 2: Montevidéu - Praias e Arte</h2>
+                <p><span>•</span>Praias: Aproveite as praias de Montevidéu, como Pocitos, no bairro de mesmo 
+                nome.</p> </p>
+                <p><span>•</span>Vinícolas: Faça um passeio para conhecer e degustar os vinhos uruguaios 
+                    em uma das vinícolas da região. </p>
+                <img src="https://dicasdouruguai.com.br/wp-content/uploads/sites/12/2018/11/vinicola-no-uruguai.png" width="300" height="200"/>
+                <h2><p>Dia 3: Bate e Volta para Colônia do Sacramento </h2>
+                <p><span>•</span>Centro Histórico: Conheça a charmosa Colônia do Sacramento, com suas ruas 
+                    de paralelepípedos e arquitetura colonial. </p>
+                <p><span>•</span>Atrações: Visite a Plaza Mayor, o Faro de Colônia e admire a vista do Rio 
+                    da Prata. </p></p>
+                <img src="https://imgmd.net/images/v1/guia/1705727/colonia-del-sacramento.jpg" width="300" height="200"/>
+                <h2><p>Dia 4: Punta del Este e José Ignacio </h2>
+                <p><span>•</span>Punta del Este: Visite a famosa cidade, com suas mansões, o escultor Los 
+                    Dedos e a Casa Pueblo. </p>
+                <p><span>•</span>José Ignacio: Faça uma visita a esta elegante praia, conhecida por seus 
+                    bares e restaurantes. </p></p>
+                <img src="https://imgmd.net/images/v1/guia/1706151/punta-del-este.jpg" width="300" height="200"/>
+                <h2><p>Dia 5: Flexibilidade - Praias ou Retorno</h2>
+                <p><span>•</span>Opção 1: Passe mais tempo em Punta del Este, visitando o Parque El Jagüel 
+                    para atividades em família. </p>
+                <p><span>•</span>Opção 2: Retorne a Montevidéu, para visitar o Museu Andes 1972, o Museu do 
+                    Carnaval ou fazer compras em mercados como o Mercado de los Artesanos. </p></p>
+                <img src="https://dicasdouruguai.com.br/wp-content/uploads/sites/12/2018/10/parque-el-jaguel-punta-del-este-1.jpg" width="300" height="200"/>
+            </article>`;
+  setActive('carregarUruguai');
+}
+
+// função para destacar botão ativo
+function setActive(funcName) {
+  const map = {
+    'carregarIndex': 'btn-index',
+    'carregarItalia': 'btn-italia',
+    'carregarChina': 'btn-china',
+    'carregarChile': 'btn-chile',
+    'carregarEgito': 'btn-egito',
+    'carregarNovaZelandia': 'btn-nz',
+    'carregarUruguai': 'btn-uruguai'
+  };
+  for (const id of Object.values(map)) {
+    document.getElementById(id).classList.remove('active');
+  }
+  if (map[funcName]) {
+    document.getElementById(map[funcName]).classList.add('active');
+  }
+}
+
+// Carregar página inicial ao abrir
+carregarIndex();
+  </script>
+</body>
+</html>
