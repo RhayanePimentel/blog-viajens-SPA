@@ -102,6 +102,48 @@ footer { border-top: 1px solid var(--border); padding: 20px 0; color: var(--mute
 .link-btn:hover {
   text-decoration: underline;
 }
+.post-content {
+  max-width: 1050px;   
+  margin: 0 auto;      
+  padding: 20px;       
+}
+.post-content img {
+  display: block;
+  margin: 0px ;   
+  border-radius: 12px; 
+}
+.back {
+  cursor: pointer;
+  color: var(--primary);
+  font-weight: bold;
+}
+.back:hover {
+  text-decoration: underline;
+}
+.tags {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.tag {
+  padding: 5px 10px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 500;
+  font-size: large;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: var(--primary);
+  color: #000;
+  border-color: var(--primary);
+}
   </style>
 </head>
 <body>
@@ -123,7 +165,6 @@ footer { border-top: 1px solid var(--border); padding: 20px 0; color: var(--mute
   </header>
 
   <main id="conteudo">
-    <!-- conteúdo carregado dinamicamente -->
   </main>
 
   <footer id="sobre">
@@ -155,11 +196,20 @@ function carregarIndex() {
                 <div class="eyebrow">Blog de Viagens</div>
                 <h1 id="hero-title" class="title">Descubra o mundo com leveza</h1>
                 <p class="subtitle">Roteiros detalhados, dicas sinceras e relatos que cabem no seu bolso.</p>
-            </div>
+                    <div class="tags">
+                    <button class="tag" onclick="filtrarCategoria('europa')">Europa</button>
+                    <button class="tag" onclick="filtrarCategoria('asia')">Ásia</button>
+                    <button class="tag" onclick="filtrarCategoria('oceania')">Oceania</button>
+                    <button class="tag" onclick="filtrarCategoria('america-do-sul')">América do Sul</button>
+                    <button class="tag" onclick="filtrarCategoria('africa')">África</button>
+                    <button class="tag" onclick="filtrarCategoria('todas')">Todos</button>
+                    </div>
+                </div>
+                </div>
         </section>
 
         <section id="destinos" class="grid" aria-label="Lista de posts">
-            <article class="card">
+            <article class="card" data-category="europa">
                 <div class="card-media">
                     <img src="https://blog.theifriend.com/wp-content/uploads/2023/10/guia-brasileiro-na-italia.jpg" alt="Veneza, Itália, com gondolas e canais" />
                 </div>
@@ -170,7 +220,7 @@ function carregarIndex() {
                     <button class="link-btn" onclick="carregarItalia()">Ler mais →</button>
                 </div>
             </article>
-            <article class="card">
+            <article class="card" data-category="oceania">
                 <div class="card-media">
                     <img src="https://viajarverde.com.br/wp-content/uploads/2015/12/Milford-Sound-mstecker.com_1-810x480.jpg" alt="Montanha no Parque Nacional Fiordland, Nova Zelândia" />
                 </div>
@@ -181,7 +231,7 @@ function carregarIndex() {
                     <button class="link-btn" onclick="carregarNovaZelandia()">Ler mais →</button>
                 </div>
             </article>
-            <article class="card">
+            <article class="card" data-category="asia">
                 <div class="card-media">
                     <img src="https://www.civitatis.com/f/china/pekin/excursion-gran-muralla-china-589x392.jpg" alt="Muralha da China e montanhas" />
                 </div>
@@ -194,7 +244,7 @@ function carregarIndex() {
             </article>
         </section>
             <section id="destinos2" class="grid" aria-label="Lista de posts">
-            <article class="card">
+            <article class="card" data-category="america-do-sul">
                 <div class="card-media">
                     <img src="https://blog.123milhas.com/wp-content/uploads/2022/04/BANNER-TEM-IR-SANTIAGO-123MILHAS.jpg" alt="7 dias no Chile." />
                 </div>
@@ -206,7 +256,7 @@ function carregarIndex() {
                     <button class="link-btn" onclick="carregarChile()">Ler mais →</button>
                 </div>
             </article>
-            <article class="card">
+            <article class="card" data-category="africa">
                 <div class="card-media">
                     <img src="https://elaboraviagens.com.br/wp-content/uploads/2025/02/Cairo_1736516813062.jpg" alt="Egito" />
                 </div>
@@ -217,7 +267,7 @@ function carregarIndex() {
                     <button class="link-btn" onclick="carregarEgito()">Ler mais →</button>
                 </div>
             </article>
-                        <article class="card">
+                        <article class="card" data-category="america-do-sul">
                 <div class="card-media">
                     <img src="https://dicasdouruguai.com.br/wp-content/uploads/sites/12/2019/11/praia-de-punta-del-este.jpg" alt="Uruguai" />
                 </div>
@@ -233,7 +283,8 @@ function carregarIndex() {
         </section>
 
     <section id="index" class="post-section">
-      <p class="back">↑ Voltar ao topo</p>
+      </p>
+      <p class="back" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑ Voltar ao topo</p>
     </section>
 
     
@@ -629,6 +680,17 @@ function setActive(funcName) {
   if (map[funcName]) {
     document.getElementById(map[funcName]).classList.add('active');
   }
+}
+
+  function filtrarCategoria(categoria) {
+  const cards = document.querySelectorAll(".card");
+  cards.forEach(card => {
+    if (categoria === "todas" || card.dataset.category === categoria) {
+      card.style.display = "block";
+    } else {
+      card.style.display = "none";
+    }
+  });
 }
 
 // Carregar página inicial ao abrir
